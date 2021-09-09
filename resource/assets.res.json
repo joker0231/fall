@@ -1,0 +1,23 @@
+{
+  "groups": [{
+    "name": "chapter",
+    "keys": "clockRing.mp3,ring.mp3,click.mp3,cup.mp3"
+  }],
+  "resources": [{
+    "name": "clockRing.mp3",
+    "type": "sound",
+    "url": "assets/age8/clockRing.mp3"
+  }, {
+    "name": "ring.mp3",
+    "type": "sound",
+    "url": "assets/age16/ring.mp3"
+  }, {
+    "name": "click.mp3",
+    "type": "sound",
+    "url": "assets/age19/click.mp3"
+  }, {
+    "name": "cup.mp3",
+    "type": "sound",
+    "url": "assets/age19/cup.mp3"
+  }]
+}
