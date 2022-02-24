@@ -5,7 +5,7 @@ class Age8 extends Chapter {
 
   public main() {
     this.background = "/resource/assets/age8/3.8.jpg";
-    const sound = new Sound("闹钟_mp3", 0, false);
+    const sound = new Sound("clockRing.mp3", 0, false);
 
     // ----------------------------------------------------------
 
@@ -46,10 +46,10 @@ class Age8 extends Chapter {
         );
 
         this.addChild(clock);
-        //todo 没被出发
-        // this.starter = () => {
-        //   sound.play();
-        // };
+
+        this.starter = () => {
+          sound.play();
+        };
       },
     });
 

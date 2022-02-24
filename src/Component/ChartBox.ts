@@ -67,7 +67,7 @@ class ChartBox extends egret.DisplayObjectContainer {
 
     const count = Math.floor(Math.random() * 2);
 
-    // todo this.sound.play();
+    this.sound.play();
 
     for (let i = 0; i <= count; i++) {
       if (this.line < 9) {

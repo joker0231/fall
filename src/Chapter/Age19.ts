@@ -200,7 +200,7 @@ class Age19 extends Chapter {
 
               entity.addEventListener(egret.TouchEvent.TOUCH_TAP, listen, this);
 
-            //   ring.play();
+              ring.play();
               const { tw, end } = Transition.in(this, entity, {
                 before: 1500,
                 during: 500,
@@ -424,7 +424,7 @@ class Age19 extends Chapter {
                 console.log("震动结束");
                 this.addChild(cupAnimate);
                 cupAnimate.start();
-                // cupSound.play();
+                cupSound.play();
               });
             }
           },

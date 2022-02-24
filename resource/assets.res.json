@@ -1,6 +1,6 @@
 {
   "groups": [{
-    "name": "chapter",
+    "name": "preload",
     "keys": "clockRing.mp3,ring.mp3,click.mp3,cup.mp3"
   }],
   "resources": [{

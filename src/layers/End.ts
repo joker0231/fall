@@ -1,6 +1,19 @@
 class End extends Layers {
     constructor() {
         super();
+        ["结束", "全局"].forEach(group_name => {
+            RES.getGroupByName(group_name).forEach(item => {
+                console.log(item);
+
+                let texture = RES.getRes(item.name);
+                let bitmap = new egret.Bitmap(texture);
+                bitmap.x = bitmap.y = 0;
+                bitmap.width = 720;
+                bitmap.height = 1280;
+                this.names.push(item.name);
+                this.showing.push(bitmap);
+            });
+        });
     }
 
     public show(callback: Function, thisObject: egret.DisplayObjectContainer) {
@@ -22,24 +35,15 @@ class End extends Layers {
 
     private progress1() {
         console.log("progress1")
+
         let show2 = this.getBitMapByName("end_png");
-        show2.y = this.height;
+        show2.alpha = 0;
         show2.height = 2231;
         this.addChild(show2);
         this.createTween(show2)
+            .to({ "alpha": 1 }, 1000)
             .wait(1500)
-            .to({ "y": - show2.height }, 100000)
-            .call(this.progress2, this);
-
-    }
-
-    private progress2() {
-        console.log("progress2")
-        let show1 = this.getBitMapByName("0.2_jpg");
-        show1.alpha = 0;
-        this.addChild(show1);
-        this.createTween(show1)
-            .to({ alpha: 1 }, 200)
+            .to({ "y": - show2.height }, 15000)
             .call(this.callback, this.parentObject);
     }
 }

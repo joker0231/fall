@@ -2,18 +2,20 @@ class age20 extends Layers {
 
     constructor() {
         super();
-        this.loadSounds(
-            ["call", "message"],
-            "/resource/audio/20/")
-        this.getBitMapByName("9.30_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
-            this.playSound("call", 0, 0);
-        }, this);
-        for (let i = 24; i <= 29; i++) {
-            this.getBitMapByName("9." + i + "_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
-                this.playSound("message", 0, 1);
-            }, this);
+        //加载组内容
+        ["20岁", "全局"].forEach(group_name => {
+            RES.getGroupByName(group_name).forEach(item => {
+                console.log(item);
 
-        }
+                let texture = RES.getRes(item.name);
+                let bitmap = new egret.Bitmap(texture);
+                bitmap.x = bitmap.y = 0;
+                bitmap.width = 720;
+                bitmap.height = 1280;
+                this.names.push(item.name);
+                this.showing.push(bitmap);
+            });
+        });
 
     }
 
@@ -92,6 +94,12 @@ class age20 extends Layers {
         let show2 = this.getBitMapByName("9.5_jpg");
         let show3 = this.getBitMapByName("9.6_png");
 
+        let event = (e: egret.TouchEvent) => {
+            if (this.inRect(e.stageX, e.stageY, 296, 1071, 71, 80)) {
+                this.progress4();
+            }
+        }
+
         show3.touchEnabled = true;
         show2.alpha = show3.alpha = 0;
 
@@ -105,10 +113,10 @@ class age20 extends Layers {
             .wait(500)
             .call(() => {
                 this.createTween(show3)
-                    .wait(500)
+                    .wait(1000)
                     .to({ "alpha": 1 }, 1000)
-                    .wait(2000)
-                    .call(this.progress4, this)
+                    .call(show3.addEventListener, show3, [egret.TouchEvent.TOUCH_TAP, event
+                        , this])
                     .call(this.removeTweens, this, [show3]);
 
             }, this)
@@ -287,7 +295,6 @@ class age20 extends Layers {
             let show = isRight ? show2 : show3
             this.addChild(show);
             show.alpha = 0;
-            this.stopSounds();
             this.createTween(show)
                 .to({ "alpha": 1 }, 200)
                 .call(this.removeChild, this, [show1])
@@ -419,6 +426,6 @@ class age20 extends Layers {
         let tween = this.createTween(show1);
         tween.to({ "alpha": 1 }, 200)
             .wait(2000)
-            .call(this.callback, this.parentObject)
+            .call(this.callback,this.parentObject)
     }
 }

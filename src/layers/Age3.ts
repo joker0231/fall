@@ -5,35 +5,34 @@ class Age3 extends Layers {
     }
 
     public show(callback: Function, thisObject: egret.DisplayObjectContainer) {
-        console.log("show");
-        let sky = this.getBitMapByName("1_1_jpg");
+        let sky = this.createBitmapByName("1_1_jpg");
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
         sky.width = stageW;
         sky.height = stageH;
 
-        let cloud1: egret.Bitmap = this.getBitMapByName("c1_png");
+        let cloud1: egret.Bitmap = this.createBitmapByName("c1_png");
         cloud1.y = 500;
         cloud1.width = stageW
         this.animation(cloud1, 2500);
 
-        let cloud2: egret.Bitmap = this.getBitMapByName("c2_png");
+        let cloud2: egret.Bitmap = this.createBitmapByName("c2_png");
         cloud2.y = 0;
         cloud2.width = stageW
         this.animation(cloud2, 500);
 
-        let cloud3: egret.Bitmap = this.getBitMapByName("c3_png");
+        let cloud3: egret.Bitmap = this.createBitmapByName("c3_png");
         cloud3.y = 0;
         cloud3.width = stageW
         this.animation(cloud3, 4000);
 
-        let cloud4: egret.Bitmap = this.getBitMapByName("c4_png");
+        let cloud4: egret.Bitmap = this.createBitmapByName("c4_png");
         cloud4.y = 500;
         cloud4.width = stageW
         this.animation(cloud4, 5500);
 
-        let bg1: egret.Bitmap = this.getBitMapByName("1_2_jpg");
+        let bg1: egret.Bitmap = this.createBitmapByName("1_2_jpg");
         this.animation(bg1, 6000);
 
         var bg = new eui.Image("1_3_jpg");
@@ -53,13 +52,13 @@ class Age3 extends Layers {
             if (this.inArea(e.stageX, e.stageY, 330, 1050, 80, 80)) {
                 myScroller.addEventListener(egret.TouchEvent.TOUCH_TAP, this.book, this);
                 this.createTween(cloud3)
-                    .wait(2500)
-                    .call(() => {
-                        bg.parent.removeChild(bg);
-                        group.parent.removeChild(group);
-                        myScroller.parent.removeChild(myScroller);
-                    }, this)
-                    .call(this.removeTweens, [cloud3]);
+                .wait(2500)
+                .call(() => {
+                    bg.parent.removeChild(bg);
+                    group.parent.removeChild(group);
+                    myScroller.parent.removeChild(myScroller);
+                },this)
+                .call(this.removeTweens,[cloud3])
             }
             else {
                 myScroller.addEventListener(egret.TouchEvent.TOUCH_BEGIN, event, this);
@@ -72,18 +71,18 @@ class Age3 extends Layers {
     }
 
     private book() {
-        console.log("book");
-        let bg = this.getBitMapByName("1_4_jpg");
+        let bg = this.createBitmapByName("1_4_jpg");
         bg.width = 720;
         this.addChild(bg);
-        this.animation2(bg, 500)
+        this.animation2(bg, 500);
+
 
         this.createTween(bg)
-            .wait(1000)
-            .call(() => {
-                this.stage.once(egret.TouchEvent.TOUCH_TAP, this.middle, this);
-            }, this)
-            .call(this.removeTweens, this, [bg])
+        .wait(1000)
+        .call(()=> {
+            this.stage.once(egret.TouchEvent.TOUCH_TAP, this.middle, this);
+        },this)
+        .call(this.removeTweens,this,[bg])
 
     }
 
@@ -92,96 +91,84 @@ class Age3 extends Layers {
         var url: string = "resource/assets/music/book.mp3";
         sound.addEventListener(egret.Event.COMPLETE, this.onLoadComplete, this);
         sound.load(url);
-        let bg1 = this.getBitMapByName("1_5_jpg");
+        let bg1 = this.createBitmapByName("1_5_jpg");
         bg1.width = 720;
         this.addChild(bg1);
         this.animation(bg1, 500);
 
-        this.p1 = this.getBitMapByName("1_6_png");
+        this.p1 = this.createBitmapByName("1_6_png");
         this.p1.width = 720;
         this.p1.alpha = 0;
         this.addChild(this.p1);
 
-        this.p2 = this.getBitMapByName("1_7_png");
+        this.p2 = this.createBitmapByName("1_7_png");
         this.p2.width = 720;
         this.p2.alpha = 0;
         this.addChild(this.p2);
 
-        this.p3 = this.getBitMapByName("1_8_png");
+        this.p3 = this.createBitmapByName("1_8_png");
         this.p3.width = 720;
         this.p3.alpha = 0;
         this.addChild(this.p3);
 
-        this.p4 = this.getBitMapByName("1_9_png");
+        this.p4 = this.createBitmapByName("1_9_png");
         this.p4.width = 720;
         this.p4.alpha = 0;
         this.addChild(this.p4);
 
-        
+        this.p8 = this.createBitmapByName("p_0");
+        this.p8.width = 720;
+        this.p8.alpha = 0;
+        this.p8.y = -950;
+        this.addChild(this.p8);
 
-        this.h1 = this.getBitMapByName("h11_png");
+        this.p5 = this.createBitmapByName("p_1");
+        this.p5.width = 720;
+        this.p5.alpha = 0;
+        this.p5.y = -950;
+        this.addChild(this.p5);
+
+        this.p6 = this.createBitmapByName("p_2");
+        this.p6.width = 720;
+        this.p6.alpha = 0;
+        this.p6.y = -950;
+        this.addChild(this.p6);
+
+        this.p7 = this.createBitmapByName("p_3");
+        this.p7.width = 720;
+        this.p7.alpha = 0;
+        this.p7.y = -950;
+        this.addChild(this.p7);
+
+        this.p9 = this.createBitmapByName("p_4");
+        this.p9.width = 720;
+        this.p9.alpha = 0;
+        this.p9.y = -950;
+        this.addChild(this.p9);
+
+        this.h1 = this.createBitmapByName("h11_png");
         this.h1.x = 160;
         this.h1.y = 280;
         this.addChild(this.h1);
         this.animation(this.h1, 2000);
 
-        this.h2 = this.getBitMapByName("h22_png");
+        this.h2 = this.createBitmapByName("h22_png");
         this.h2.x = 280;
         this.h2.y = 530;
         this.addChild(this.h2);
         this.animation(this.h2, 2500);
 
-        this.p8 = this.getBitMapByName("p_0");
-        this.p8.width = 520;
-        this.p8.alpha = 0;
-        this.p8.y = 1150;
-        this.p8.x = 100;
-        this.p8.touchEnabled = true
-        this.addChild(this.p8);
-
-        this.p5 = this.getBitMapByName("p_1");
-        this.p5.width = 520;
-        this.p5.alpha = 0;
-        this.p5.y = 1150;
-        this.p5.x = 100;
-        this.p5.touchEnabled = true
-        this.addChild(this.p5);
-
-        this.p6 = this.getBitMapByName("p_2");
-        this.p6.width = 520;
-        this.p6.alpha = 0;
-        this.p6.x = 100;
-        this.p6.y = 1150;
-        this.p6.touchEnabled = true
-        this.addChild(this.p6);
-
-        this.p7 = this.getBitMapByName("p_3");
-        this.p7.width = 520;
-        this.p7.alpha = 0;
-        this.p7.y = 1150;
-        this.p7.x = 100;
-        this.p7.touchEnabled = true
-        this.addChild(this.p7);
-
-        this.p9 = this.getBitMapByName("p_4");
-        this.p9.width = 520;
-        this.p9.alpha = 0;
-        this.p9.y = 1150;
-        this.p9.x = 100;
-        this.p9.touchEnabled = true
-        this.addChild(this.p9);
-
         this.createTween(bg1)
-            .wait(2500)
-            .call(() => {
-                this.stage.once(egret.TouchEvent.TOUCH_TAP,
-                    function change() {
-                        this.h2.x = 280;
-                        this.h2.y = 300;
-                        this.p8.alpha = 1;
-                    }, this)
-            }, this)
-            .call(this.removeTweens, this, [bg1])
+        .wait(2500)
+        .call(()=> {
+            this.stage.once(egret.TouchEvent.TOUCH_TAP,
+                function change() {
+                    this.h2.x = 280;
+                    this.h2.y = 300;
+                    this.p8.alpha = 1;
+                }, this)
+        },this)
+        .call(this.removeTweens,this,[bg1])
 
         let move: Function;
         move = (e: egret.TouchEvent) => {
@@ -193,30 +180,32 @@ class Age3 extends Layers {
         }
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, move, this)
+        
+
     }
 
 
     private end() {
-        let bg2: egret.Bitmap = this.getBitMapByName("1_10_jpg");
+        let bg2: egret.Bitmap = this.createBitmapByName("1_10_jpg");
         bg2.width = 720;
-        this.animation(bg2, 500);
-        
-        let bg3: egret.Bitmap = this.getBitMapByName("1_11_jpg");
+        this.animation(bg2, 5000);
+
+        let bg3: egret.Bitmap = this.createBitmapByName("1_11_jpg");
         bg3.width = 720;
-        this.animation(bg3, 2000);
+        this.animation(bg3, 6500);
 
-        let bg4: egret.Bitmap = this.getBitMapByName("1_12_jpg");
-        this.animation(bg4, 3500);
+        let bg4: egret.Bitmap = this.createBitmapByName("1_12_jpg");
+        this.animation(bg4, 8000);
 
-        let bg5: egret.Bitmap = this.getBitMapByName("1_13_jpg");
-        this.animation(bg5, 5000);
+        let bg5: egret.Bitmap = this.createBitmapByName("1_13_jpg");
+        this.animation(bg5, 9500);
 
         this.createTween(bg2)
-            .wait(11500)
-            .call(() => {
-                this.callback.call(this.parentObject);
-            }, this)
-            .call(this.removeTweens, this, [bg2])
+        .wait(11500)
+        .call(()=> {
+            this.callback.call(this.parentObject);
+        },this)
+        .call(this.removeTweens,this,[bg2])
 
     }
 
@@ -233,8 +222,8 @@ class Age3 extends Layers {
     private h2: egret.Bitmap;
     private _touchStatus: boolean = false;
     private _distance: egret.Point = new egret.Point();
-    private point1: number
-    private point2: number
+    private point1 :number
+    private point2 :number
     private index = 0;
     private mouseDown(evt: egret.TouchEvent) {
         // console.log("Mouse Down.");
@@ -251,44 +240,43 @@ class Age3 extends Layers {
             // console.log("moving now ! Mouse: [X:"+evt.stageX+",Y:"+evt.stageY+"]");
             this.h2.x = evt.stageX - this._distance.x;
             this.h2.y = evt.stageY - this._distance.y;
-            this.h1.x = evt.stageX - this._distance.x - 120;
-            this.h1.y = evt.stageY - this._distance.y - 10;
+            this.h1.x = evt.stageX - this._distance.x -120;
+            this.h1.y = evt.stageY - this._distance.y -10;
 
 
-            if (this.h1.x <= -150 || this.h1.x >= 300 || this.h1.y <= -50 || this.h1.y >= 500) {
+            if(this.h1.x<= -150 || this.h1.x>= 300 || this.h1.y <= -50 || this.h1.y>= 500){
                 this._touchStatus = false;
             }
 
-            if (this.h1.x - this.point1 >= 200 || this.h1.x - this.point1 <= -200) {
+            if(this.h1.x - this.point1 >=200 || this.h1.x - this.point1 <=-200){
                 this.progress(this.index)
                 this.index++;
                 this.point1 = this.h1.x;
                 this.point2 = this.h1.y;
             }
-            else if (this.h1.y - this.point2 >= 200 || this.h1.y - this.point2 <= -200) {
+            else if(this.h1.y - this.point2 >=200 || this.h1.y - this.point2<=-200){
                 this.progress(this.index)
                 this.index++;
                 this.point1 = this.h1.x;
                 this.point2 = this.h1.y;
             }
 
+            if(this.index>3){
+                this.end();
+            }
             
-
         }
     }
 
     private mouseUp(evt: egret.TouchEvent) {
         this._touchStatus = false;
         this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, this.mouseMove, this);
-        if (this.index > 3) {
-            this.end();
-        }
-
+        
     }
 
-    private progress(index) {
+    private progress(index){
         let bar = [this.p5, this.p6, this.p7, this.p9]
-        let drew = [this.p1, this.p2, this.p3, this.p4]
+        let drew = [this.p1, this.p2, this.p3,this.p4]
 
         this.animation1(bar[index], 0)
         this.animation1(drew[index], 0)
@@ -309,6 +297,13 @@ class Age3 extends Layers {
         }
     }
 
+    private createBitmapByName(name: string): egret.Bitmap {
+        let result = new egret.Bitmap();
+        let texture: egret.Texture = RES.getRes(name);
+        result.texture = texture;
+        return result;
+    }
+
     private animation(e, num1) {
         this.addChild(e);
         e.alpha = 0;
@@ -320,7 +315,7 @@ class Age3 extends Layers {
     private animation1(e, num1) {
         e = egret.Tween.get(e);
         e.wait(num1);
-        e.to({ "alpha": 1 }, 0);
+        e.to({ "alpha": 1 }, 1500);
     }
 
     private animation2(e, num1) {

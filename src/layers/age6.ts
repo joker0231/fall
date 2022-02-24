@@ -3,19 +3,19 @@ class Age6 extends Layers {
     constructor() {
         super();
         //加载组内容
-        // ["6岁", "全局"].forEach(group_name => {
-        //     RES.getGroupByName(group_name).forEach(item => {
-        //         console.log(item);
+        ["6岁", "全局"].forEach(group_name => {
+            RES.getGroupByName(group_name).forEach(item => {
+                console.log(item);
 
-        //         let texture = RES.getRes(item.name);
-        //         let bitmap = new egret.Bitmap(texture);
-        //         bitmap.x = bitmap.y = 0;
-        //         bitmap.width = 720;
-        //         bitmap.height = 1280;
-        //         this.names.push(item.name);
-        //         this.showing.push(bitmap);
-        //     });
-        // });
+                let texture = RES.getRes(item.name);
+                let bitmap = new egret.Bitmap(texture);
+                bitmap.x = bitmap.y = 0;
+                bitmap.width = 720;
+                bitmap.height = 1280;
+                this.names.push(item.name);
+                this.showing.push(bitmap);
+            });
+        });
 
     }
 
@@ -95,71 +95,66 @@ class Age6 extends Layers {
         let show1 = this.getBitMapByName("2.3_jpg");
         let show2 = this.getBitMapByName("2.4_jpg");
 
-        this.addChild(show2);
-        show2.alpha = 0;
-        let tween1 = this.createTween(show2);
-        tween1.to({ "alpha": 1 }, 1000)
+        this.addChildAt(show2, 0);
+        show2.alpha = 1;
+        let tween1 = this.createTween(show1);
+        tween1.to({ "alpha": 0 }, 1000)
             .wait(1000)
             .call(this.progress4, this)
-            .call(this.removeTweens, this, [show2])
+            .call(this.removeTweens, this, [show1])
     }
 
     private progress4() {
         console.log("progress4");
+        console.log("activated");
         let show1 = this.getBitMapByName("2.4_jpg");
         let show2 = this.getBitMapByName("2.5_jpg");
-        this.addChild(show2);
-        show2.alpha = 0;
-        let tween1 = this.createTween(show2);
-        tween1.to({ "alpha": 1 }, 1000)
+        this.addChildAt(show2, 0);
+
+        show1.alpha = 1;
+        let tween1 = this.createTween(show1);
+        tween1.to({ "alpha": 0 }, 1000)
+            
             .wait(1000)
-            .call(this.progress5, this)
-            .call(this.removeTweens, this, [show2]);
+            .call(() => {
+                this.progress5();
+            })
+            .call(() => {
+                this.removeTweens(show1);
+
+            });
     }
 
     private progress5() {
         console.log("progress5");
-        while (this.$children.length > 1) {
-            this.removeChildAt(0);
-        }
         let show1 = this.getBitMapByName("2.5_jpg");
-        let show2 = this.getBitMapByName("2.2_2_jpg");
-        this.addChild(show2);
+        let show2 = this.getBitMapByName("2.2_jpg");
+        this.addChildAt(show2, 0);
 
-        show2.alpha = 0;
+        show1.alpha = 1;
         show2.x = 0;
-        let tween1 = this.createTween(show2);
-        tween1.to({ "alpha": 1 }, 1000)
+        let tween1 = this.createTween(show1);
+        tween1.to({ "alpha": 0 }, 1000)
+
             .wait(1000)
             .call(this.progress6, this)
-            .call(this.removeTweens, this, [show2]);
+            .call(this.removeTweens, this, [show1]);
     }
     private progress6() {
         console.log("progress6");
-        let show1 = this.getBitMapByName("2.2_2_jpg");
+        let show1 = this.getBitMapByName("2.2_jpg");
         let show2 = this.getBitMapByName("2.7_jpg");
-        // this.addChild(show2);
-        // console.log("a")
-        // show1.y = -92
-        // show2.alpha = 0;
-        // this.createTween(show1)
-        //     .to({ "y": -92 }, 500)
-        //     .call(() => {
-        //         console.log("b")
-        //         this.createTween(show1)
-        //             .to({ "alpha": 0 }, 1000)
-        //             .call(this.removeTweens, this, [show1]);
-        //     }, this)
-        //     .wait(1500)
-        //     .call(this.progress7, this)
-        //     .call(this.removeTweens, this, [show1])
-        this.addChild(show2);
-        show2.alpha = 0;
-        this.createTween(show2)
-            .to({ "alpha": 1 }, 1000)
-            .wait(1500)
-            .call(this.progress7, this)
-            .call(this.removeTweens, this, [show2]);
+        this.addChildAt(show2, 0);
+
+        show1.alpha = 1;
+        let tween1 = this.createTween(show1);
+        tween1.to({ "y": -92 }, 1000)
+            .to({ "alpha": 0 }, 1000)
+            .wait(2000)
+            .call(() => {
+                this.removeTweens(show1);
+                this.progress7();
+            });
     }
     private progress7() {
         console.log("progress7");
@@ -206,41 +201,58 @@ class Age6 extends Layers {
     }
     private progress8() {
         console.log("progress8");
+        let show1 = this.getBitMapByName("2.8_jpg");
         let show2 = this.getBitMapByName("2.11_jpg");
-        this.addChild(show2);
-        show2.alpha = 0;
-        this.createTween(show2)
-            .to({ "alpha": 1 }, 1000)
+        let left = this.getBitMapByName("ice_cream.2_png");
+        let right = this.getBitMapByName("ice_cream.1_png");
+        this.addChildAt(show2, 0);
+
+        show1.alpha = 1;
+        this.createTween(left)
+            .to({ "alpha": 0 }, 1000)
+        this.createTween(right)
+            .to({ "alpha": 0 }, 1000)
+
+        this.createTween(show1)
+            .to({ "alpha": 0 }, 1000)
             .wait(1000)
-            .call(this.progress9, this)
-            .call(this.removeTweens, this, [show2]);
-        
+            .call(() => {
+                this.removeTweens(show1);
+                this.removeTweens(left);
+                this.removeTweens(right);
+                this.removeChildren()
+                this.progress9();
+            });
+
     }
     private progress9() {
         console.log("progress9");
-        
         let show1 = this.getBitMapByName("2.11_jpg");
         let show2 = this.getBitMapByName("2.12_jpg");
+        this.addChildAt(show2, 0);
 
-        this.addChild(show2);
-        show2.alpha = 0;
-        let tween1 = this.createTween(show2);
-        tween1.to({ "alpha": 1 }, 1000)
+        show1.alpha = 1;
+        let tween1 = this.createTween(show1);
+        tween1.to({ "alpha": 0 }, 1000)
             .wait(1000)
-            .call(this.progress10, this)
-            .call(this.removeTweens, this, [show2])
+            .call(() => {
+                this.removeTweens(show1);
+                this.progress10();
+            });
     }
     private progress10() {
         console.log("progress10");
-       
         let show1 = this.getBitMapByName("2.12_jpg");
         let show2 = this.getBitMapByName("2.13_jpg");
+        this.addChildAt(show2, 0);
 
-        this.addChild(show2);
-        show2.alpha = 0;
-        let tween1 = this.createTween(show2);
-        tween1.to({ "alpha": 1 }, 1000)
+        show1.alpha = 1;
+        let tween1 = this.createTween(show1);
+        tween1.to({ "alpha": 0 }, 1000)
             .wait(1000)
-            .call(this.callback, this.parentObject);
+            .call(() => {
+                this.removeTweens(show1);
+                this.callback.call(this.parentObject);
+            });
     }
 }

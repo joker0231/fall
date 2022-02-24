@@ -8,25 +8,25 @@ class Pause extends Layers {
 
     constructor() {
         super();
-        // ["暂停"].forEach(group_name => {
-        //     RES.getGroupByName(group_name).forEach(item => {
-        //         // console.log(item);
-        //         let texture = RES.getRes(item.name);
-        //         let bitmap = new egret.Bitmap(texture);
-        //         if (item.name == "pause_png") {
-        //             bitmap.x = 595;
-        //             bitmap.y = 54;
-        //             bitmap.width = 57;
-        //             bitmap.height = 65;
-        //         } else {
-        //             bitmap.x = bitmap.y = 0;
-        //             bitmap.width = 720;
-        //             bitmap.height = 1280;
-        //         }
-        //         this.names.push(item.name);
-        //         this.showing.push(bitmap);
-        //     });
-        // });
+        ["暂停"].forEach(group_name => {
+            RES.getGroupByName(group_name).forEach(item => {
+                // console.log(item);
+                let texture = RES.getRes(item.name);
+                let bitmap = new egret.Bitmap(texture);
+                if (item.name == "pause_png") {
+                    bitmap.x = 595;
+                    bitmap.y = 54;
+                    bitmap.width = 57;
+                    bitmap.height = 65;
+                } else {
+                    bitmap.x = bitmap.y = 0;
+                    bitmap.width = 720;
+                    bitmap.height = 1280;
+                }
+                this.names.push(item.name);
+                this.showing.push(bitmap);
+            });
+        });
     }
     public _show(thisObject: egret.DisplayObjectContainer, pausecallback: Function, resumecallback: Function, mutecallback: Function, unmutecallback: Function, exitcallback: Function) {
         this.pausecallback = pausecallback;
@@ -41,8 +41,6 @@ class Pause extends Layers {
     private progress0() {
         let show = this.getBitMapByName("pause_png");
         show.touchEnabled = true;
-        show.x = 595;
-        show.y = 54;
         this.addChild(show);
         let event: Function;
         event = (e: egret.TouchEvent) => {
@@ -62,10 +60,7 @@ class Pause extends Layers {
         let ex = this.getBitMapByName("退出_png");
         let music = this.getBitMapByName("音乐_png");
         let not = this.getBitMapByName("音乐.1_png")
-        cont.touchEnabled = false;
-        ex.touchEnabled = false;
-        music.touchEnabled = false;
-        not.touchEnabled = false;
+        show.touchEnabled = true;
         console.log(show);
         this.addChild(show);
         this.addChild(cont);
