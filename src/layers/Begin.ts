@@ -1,19 +1,6 @@
 class Begin extends Layers {
     constructor() {
         super();
-        // ["开始", "全局"].forEach(group_name => {
-        //     RES.getGroupByName(group_name).forEach(item => {
-        //         console.log(item);
-
-        //         let texture = RES.getRes(item.name);
-        //         let bitmap = new egret.Bitmap(texture);
-        //         bitmap.x = bitmap.y = 0;
-        //         bitmap.width = 720;
-        //         bitmap.height = 1280;
-        //         this.names.push(item.name);
-        //         this.showing.push(bitmap);
-        //     });
-        // });
     }
 
     public show(callback: Function, thisObject: egret.DisplayObjectContainer) {
@@ -35,46 +22,38 @@ class Begin extends Layers {
             .call(this.removeTweens, this, [show1]);
     };
 
+
     private progress1() {
-        console.log("progress1")
         let show1 = this.getBitMapByName("0.1_jpg");
-        let shows: egret.Bitmap[] = [];
-        let nextindex = 0;
-        let next = () => {
-            if (nextindex == shows.length) {
-                let last = shows[nextindex - 1];
-                last.touchEnabled = true;
-                last.addEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => {
-                    if (this.inRect(e.stageX, e.stageY, 180, 853, 359, 132)) {
-                        this.addChildAt(show1, 0);
-                        this.createTween(shows[nextindex - 1])
-                            .to({ "alpha": 0 }, 500)
-                            .wait(500)
-                            .call(this.callback, this.parentObject);
-                    }
-                }, this);
-            } else {
-                let last = nextindex == 0 ? show1 : shows[nextindex - 1];
-                let now = shows[nextindex];
-                now.alpha = 0;
-                this.addChild(now);
-                let tween = this.createTween(now);
-                tween.to({ "alpha": 1 }, 1000)
-                    .wait(1000)
-                    .wait(1000)
-                    .wait(1000)
-                    .wait(1000)
-                    .call(this.removeChild, this, [last])
-                    .call(this.removeTweens, this, [now])
-                    .call(next, this);
-                nextindex++;
+        let show2 = this.getBitMapByName("0.2_jpg");
+        show2.alpha = 0;
+        this.addChild(show2);
+        this.createTween(show2)
+            .to({ "alpha": 1 }, 200)
+            .wait(2000)
+            .call(this.progress2, this)
+            .call(this.removeChild, this, [show1])
+            .call(this.removeTweens, this, [show2]);
+    }
+
+
+    private progress2() {
+        let show1 = this.getBitMapByName("0.2_jpg");
+        let show2 = this.getBitMapByName("0.3_jpg");
+        show2.alpha = 0;
+        this.addChild(show2);
+        this.createTween(show2)
+            .to({ "alpha": 1 }, 200)
+            .call(this.removeChild, this, [show1])
+            .call(this.removeTweens, this, [show2]);
+        show2.addEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => {
+            if (this.inRect(e.stageX, e.stageY, 180, 853, 359, 132)) {
+                this.addChildAt(this.getBitMapByName("0.1_jpg"), 0);
+                this.createTween(show2)
+                    .to({ "alpha": 0 }, 500)
+                    .wait(500)
+                    .call(this.callback, this.parentObject);
             }
-        };
-        ["0.2_jpg", "0.3_jpg"].forEach(string => {
-            let bitmap = this.getBitMapByName(string);
-            bitmap.alpha = 0;
-            shows.push(bitmap);
-        });
-        next();
+        }, this);
     }
 }

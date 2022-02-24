@@ -1,12 +1,5 @@
 abstract class Layers extends egret.DisplayObjectContainer implements LayerInterface {
 
-
-    constructor() {
-        super();
-        this.x = this.y = 0;
-        this.width = 720;
-        this.height = 1280;
-    }
     protected showings: eui.Image[] = [];
     protected names: string[] = [];
     protected objectsWithTweens = [];
@@ -15,7 +8,15 @@ abstract class Layers extends egret.DisplayObjectContainer implements LayerInter
     protected parentObject: egret.DisplayObject = null;
 
     protected sounds: egret.Sound[] = [];
-    protected soundschennel: egret.SoundChannel[] = [];
+    protected soundnames: string[] = [];
+    protected soundchennels: egret.SoundChannel[] = [];
+
+    constructor() {
+        super();
+        this.x = this.y = 0;
+        this.width = 720;
+        this.height = 1280;
+    }
 
     public show(callback: Function, thisObject: egret.DisplayObjectContainer) {
         this.callback = callback;
@@ -48,8 +49,6 @@ abstract class Layers extends egret.DisplayObjectContainer implements LayerInter
         }
     }
 
-
-
     protected createTween(target: any, props?: {
         loop?: boolean;
         onChange?: Function;
@@ -59,7 +58,7 @@ abstract class Layers extends egret.DisplayObjectContainer implements LayerInter
         if (this.objectsWithTweens.indexOf(target) == -1) {
             console.log("not seen");
             this.objectsWithTweens.push(target);
-        }else{
+        } else {
             console.log("seen");
         }
         return tween;
@@ -67,6 +66,33 @@ abstract class Layers extends egret.DisplayObjectContainer implements LayerInter
 
     protected removeTweens(target) {
         egret.Tween.removeTweens(target);
+    }
+
+    protected playSound(soundname: string, startTime: number, loops: number) {
+        let sound = this.sounds[this.soundnames.indexOf(soundname)];
+        let channel = sound.play(startTime, loops);
+        if (ISMUTE) {
+            channel.volume = 0;
+        }
+        this.soundchennels.push(channel);
+    }
+
+    protected loadSounds(paths: string[], dirpath: string) {
+        console.log("loadsounds called!");
+        console.log(paths);
+        paths.forEach(str => {
+            console.log("loading sound " + str)
+            this.soundnames.push(str);
+            let sound = new egret.Sound();
+            this.sounds.push(sound);
+            sound.load(dirpath + str + ".mp3");
+        })
+    }
+
+    protected stopSounds() {
+        this.soundchennels.forEach(channel => {
+            channel.stop();
+        });
     }
 
 
@@ -89,13 +115,13 @@ abstract class Layers extends egret.DisplayObjectContainer implements LayerInter
     }
 
     public mute() {
-        this.soundschennel.forEach(chennel => {
+        this.soundchennels.forEach(chennel => {
             chennel.volume = 0;
         });
     }
 
     public unmute() {
-        this.soundschennel.forEach(chennel => {
+        this.soundchennels.forEach(chennel => {
             chennel.volume = 1;
         });
     }

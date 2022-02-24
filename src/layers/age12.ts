@@ -2,26 +2,35 @@ class Age12 extends Layers {
 
     constructor() {
         super();
-        //加载组内容
-        // ["12岁", "全局"].forEach(group_name => {
-        //     RES.getGroupByName(group_name).forEach(item => {
-        //         console.log(item);
-
-        //         let texture = RES.getRes(item.name);
-        //         let bitmap = new egret.Bitmap(texture);
-        //         bitmap.x = bitmap.y = 0;
-        //         bitmap.width = 720;
-        //         bitmap.height = 1280;
-        //         this.names.push(item.name);
-        //         this.showing.push(bitmap);
-        //     });
-        // });
-
+        this.loadSounds(
+            ["boob", "book", "door", "glass1", "glass2", "glass3", "lamp"],
+            "/resource/audio/12/")
+        this.getBitMapByName("4.20_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
+            this.playSound("glass1", 0, 1);
+        }, this);
+        this.getBitMapByName("4.21_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
+            this.playSound("glass2", 0, 1);
+        }, this);
+        this.getBitMapByName("4.22_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
+            this.playSound("glass3", 0, 1);
+        }, this);
+        this.getBitMapByName("4.50_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
+            this.playSound("lamp", 0, 1);
+        }, this);
+        this.getBitMapByName("4.43_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
+            this.playSound("book", 0, 1);
+        }, this);
+        this.getBitMapByName("4.17_jpg").once(egret.Event.ADDED_TO_STAGE, () => {
+            this.playSound("door", 0, 1);
+        }, this);
     }
 
     public show(callback: Function, thisObject: egret.DisplayObjectContainer) {
         this.callback = callback;
         this.parentObject = thisObject;
+        // let show1 = this.getBitMapByName("4.38_jpg");
+        // this.addChild(show1);
+        // this.progress13();
         this.progress0();
     }
 
@@ -208,20 +217,25 @@ class Age12 extends Layers {
             }
         }
         let next = () => {
-            if (nextindex == shows.length) {
-                shows[nextindex - 1].removeEventListener(egret.TouchEvent.TOUCH_TAP, event, this);
-                this.progress7();
+            let lastshow = nextindex == 0 ? show1 : shows[nextindex - 1];
+            let nextshow = shows[nextindex];
+            this.addChild(nextshow);
+            lastshow.removeEventListener(egret.TouchEvent.TOUCH_TAP, event, this);
+            nextshow.alpha = 0;
+            nextshow.touchEnabled = true;
+            console.log(nextindex)
+            if (nextindex == shows.length - 1) {
+                this.createTween(nextshow)
+                    .to({ "alpha": 1 }, 200)
+                    .wait(2000)
+                    .call(this.removeChild, this, [lastshow])
+                    .call(this.progress7, this)
+                    .call(this.removeTweens, this, [nextshow])
+
             } else {
-                let lastshow = nextindex == 0 ? show1 : shows[nextindex - 1];
-                let nextshow = shows[nextindex];
-                this.addChild(nextshow);
-                lastshow.removeEventListener(egret.TouchEvent.TOUCH_TAP, event, this);
-                nextshow.alpha = 0;
-                nextshow.touchEnabled = true;
                 nextshow.addEventListener(egret.TouchEvent.TOUCH_TAP, event, this);
                 let tween = this.createTween(nextshow);
                 tween.to({ "alpha": 1 }, 200)
-                    .wait(2000)
                     .call(this.removeChild, this, [lastshow])
                     .call(this.removeTweens, this, [shows[nextindex]])
                 nextindex++;
@@ -243,8 +257,9 @@ class Age12 extends Layers {
         this.addChild(show2);
         show2.alpha = 0;
         this.createTween(show2)
-            .to({ "alpha": 1 }, 1000)
             .wait(1000)
+            .to({ "alpha": 1 }, 500)
+            .wait(500)
             .call(() => {
                 this.removeTweens(show1);
                 this.removeChild(show1);
@@ -266,7 +281,7 @@ class Age12 extends Layers {
                 show1.alpha = 0;
                 let tween = this.createTween(shows[nextindex]);
                 tween.to({ "alpha": 1 }, 200)
-                    .wait(1000)
+                    .wait(500)
                     .call(this.removeChild, this, [last])
                     .call(this.removeTweens, this, [shows[nextindex]])
                     .call(next, this);
@@ -327,7 +342,7 @@ class Age12 extends Layers {
             movetw.push(this.createTween(talk, { loop: true }));
             let arrow = this.getBitMapByName("4." + (num + 3) + "_png");
             arrow.alpha = 0;
-            this.addChild(arrow)
+            arrow.touchEnabled = false;
             arrows.push(arrow);
             showing.push(false);
         });
@@ -337,18 +352,24 @@ class Age12 extends Layers {
 
         let events = [
             () => {
+                this.addChild(arrows[0]);
+                this.playSound("boob", 0, 1);
                 this.createTween(arrows[0])
                     .to({ "alpha": 1 }, 500)
                     .call(addtrue, this, [0])
                     .call(this.removeTweens, this, [arrows[0]]);
             },
             () => {
+                this.addChild(arrows[1]);
+                this.playSound("boob", 0, 1);
                 this.createTween(arrows[1])
                     .to({ "alpha": 1 }, 500)
                     .call(addtrue, this, [1])
                     .call(this.removeTweens, this, [arrows[1]]);
             },
             () => {
+                this.addChild(arrows[2]);
+                this.playSound("boob", 0, 1);
                 this.createTween(arrows[2])
                     .to({ "alpha": 1 }, 500)
                     .call(addtrue, this, [2])
@@ -372,20 +393,17 @@ class Age12 extends Layers {
             }
         }
 
-        let i = 0;
-        let show = () => {
-            console.log("adding " + i);
+        let show = (i: number) => {
             if (i == 3) return;
+            talks[i].alpha = 0;
             this.addChild(talks[i]);
-            console.log("adding " + i);
-            this.createTween(talks[i++])
-                .to({ "alpha": 1 }, 500)
-                .call(show, this);
+            this.createTween(talks[i])
+                .to({ alpha: 1 }, 200)
+                .wait(1000)
+                .call(show, this, [i + 1]);
         }
-        show();
-
+        show(0);
     }
-
     private progress12() {
         console.log("progress12")
         let show1 = this.getBitMapByName("4.38_jpg");
@@ -417,15 +435,39 @@ class Age12 extends Layers {
         show3.touchEnabled = show4.touchEnabled = false;
         show2.alpha = show3.alpha = 0;
         show2.height = show3.height = show4.height = 2231;
-        show3.y = show4.y = show1.height - show3.height;
-        let lastx = null;
-        let event = (e: egret.TouchEvent) => {
-            if (this.inRect(e.localX, e.localY, 447, 984, 107, 269)) {
+        // show3.y = 
+        show4.y = show1.height - show3.height;
+        let lasty = null;
+        let mousedown = (e: egret.TouchEvent) => {
+            if (show4.y - show2.y + this.height == 0 && this.inRect(e.localX, e.localY, 447, 984, 107, 269)) {
+                show3.y = show4.y = -951;
+                this.addChild(show3);
+                this.addChild(show4);
+                show3.y = show4.y;
                 this.createTween(show3)
-                    .to({ "alpha": 1 }, 1000)
+                    .to({ alpha: 1 }, 500)
+                    .wait(2000)
                     .call(this.progress14, this)
                     .call(this.removeTweens, this, [show3]);
+            } else {
+                lasty = e.stageY;
+                show2.addEventListener(egret.TouchEvent.TOUCH_MOVE, mousemove, this);
             }
+        }
+        let mouseup = () => {
+            show2.removeEventListener(egret.TouchEvent.TOUCH_MOVE, mousemove, this);
+        }
+        let mousemove = (e: egret.TouchEvent) => {
+            let dy = e.stageY - lasty;
+            if (dy < 0) {
+                console.log(show4.y - show2.y + this.height);
+                console.log(dy);
+                if (dy < show4.y - show2.y + this.height) {
+                    dy = show4.y - show2.y + this.height
+                }
+                show2.y += dy;
+            }
+            lasty = e.stageY;
         }
 
         this.addChild(show2);
@@ -433,11 +475,10 @@ class Age12 extends Layers {
             .to({ "alpha": 1 }, 1000)
             .wait(1000)
             .call(this.removeChild, this, [show1])
-            .to({ "y": show3.y }, 1000)
+            // .to({ "y": show3.y }, 1000)
             .call(() => {
-                this.addChild(show3);
-                this.addChild(show4);
-                show2.addEventListener(egret.TouchEvent.TOUCH_TAP, event, this);
+                show2.addEventListener(egret.TouchEvent.TOUCH_BEGIN, mousedown, this);
+                show2.addEventListener(egret.TouchEvent.TOUCH_END, mouseup, this);
             }, this)
             .call(this.removeTweens, this, [show2]);
     }
